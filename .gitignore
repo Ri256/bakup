@@ -11,6 +11,7 @@ Pictures/
 
 # dotfiles backup repo itself
 .cfg-store.git/
+.cfg-store.git.old/
 
 # secrets: private keys
 .ssh/*
