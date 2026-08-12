@@ -2,7 +2,19 @@
 
 Все конфиги хранятся в приватном репо: https://github.com/Ri256/bakup
 
-## Шаг 1 — установка Arch
+## Быстрый путь — бутстрап-скрипт (ставит всё сам)
+
+```bash
+curl -L https://raw.githubusercontent.com/Ri256/bakup/main/setup.sh | bash
+```
+
+Скрипт сам: клонирует репо, разложит конфиги, установит пакеты из `apps-pacman.txt`
+и flatpak из `apps-flatpak.txt`, скопирует команду `bakup`. Понадобится лишь пароль
+`sudo` для установки пакетов.
+
+## Ручной путь — по шагам
+
+### Шаг 1 — установка Arch
 
 1. Загрузитесь с ISO Arch.
 2. Запустите `archinstall`:
