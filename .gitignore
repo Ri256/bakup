@@ -1,0 +1,50 @@
+# temporary, caches and big dirs
+.cache/
+.local/
+.var/
+.snap/
+.steam/
+Desktop/
+Documents/
+Downloads/
+Pictures/
+
+# dotfiles backup repo itself
+.cfg-store.git/
+
+# secrets: private keys
+.ssh/*
+!.ssh/*.pub
+.npmrc
+.netrc
+.esmtprc
+.aws/
+.kube/
+.gnupg/
+.pki/
+.keyring
+.history
+
+# apps with credentials / personal data
+.config/AmneziaVPN.ORG/
+.config/amnezia*/
+.config/mozilla/
+.config/google-chrome/
+.config/chromium/
+.config/BraveSoftware/
+.config/epiphany/
+.config/falkon/
+.config/discord/
+.config/evolution/
+.config/goa-1.0/
+'config/Code - OSS'/
+.config/RustRover*/
+.config/JetBrains/
+.config/byedpi/
+.config/GoodbyeDPI*/
+
+# logs and junk
+*.log
+.DS_Store
+freshclam.log
+core

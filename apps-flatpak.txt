@@ -1,0 +1,5 @@
+ch.tlaun.TL
+com.mojang.Minecraft
+com.vscodium.codium
+com.warlordsoftwares.wallpaper-app-4kwall
+org.kde.krita
