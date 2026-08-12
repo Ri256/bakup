@@ -8,7 +8,7 @@ G=(git --git-dir="$HOME/.cfg-store.git" --work-tree="$HOME")
 "${G[@]}" add \
   .gitignore .zshrc .gitconfig .gtkrc-2.0 \
   .ssh/github.pub .ssh/gitlab.pub \
-  apps-pacman.txt apps-flatpak.txt RESTORE.md setup.sh \
+  apps-pacman.txt apps-flatpak.txt RESTORE.md setup.sh LICENSE \
   bin/bakup \
   .config/btop .config/htop .config/cava .config/hypr .config/i3 \
   .config/kate .config/katerc .config/dolphinrc .config/arkrc .config/baloofilerc
