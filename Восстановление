@@ -1,0 +1,3 @@
+# Команда для восстановления
+curl -L https://raw.githubusercontent.com/Ri256/bakup/main/setup.sh | bash
+
