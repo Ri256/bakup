@@ -16,7 +16,9 @@ curl -L https://raw.githubusercontent.com/Ri256/bakup/main/setup.sh | bash
 1. клонирует этот репозиторий в `~/.cfg-store.git`;
 2. раскладывает конфиги по `$HOME` (конфликты — в `~/.dotfiles-conflict`);
 3. ставит все пакеты из `apps-pacman.txt` и flatpak из `apps-flatpak.txt`;
-4. кладёт команду `bakup` для дальнейших бэкапов.
+4. кладёт команду `bakup` для дальнейших бэкапов;
+5. ставит AUR-пакет `zapret-git` (обход блокировок) и восстанавливает его
+   настройки из `system/zapret-config.conf`.
 
 Подробная инструкция: см. [RESTORE.md](RESTORE.md).
 

@@ -76,6 +76,26 @@ flatpak install -y $(cat apps-flatpak.txt)
 
 ## Шаг 5 — SSH-ключ для GitHub
 
+### ⚠️ Zapret (обход блокировок) — отдельно
+
+`zapret-git` — AUR-пакет, обычным `pacman` не ставится. Скрипт автоматически
+попробует `paru`/`yay`; если их нет — сначала поставить:
+
+```bash
+sudo pacman -S --needed base-devel git
+sudo pacman -S --needed paru      # AUR-помощник
+paru -S --needed zapret-git
+```
+
+Конфиг zapret (ваши настройки для YouTube/обхода) лежит в репо как
+`system/zapret-config.conf` и восстанавливается скриптом автоматически;
+он сам подставит имя вашего сетевого интерфейса в `IFACE_WAN`.
+Убедиться после установки:
+
+```bash
+systemctl status zapret
+```
+
 ```bash
 ssh-keygen -t ed25519 -f ~/.ssh/github -N "" -C "ваш-email@mail.com"
 cat ~/.ssh/github.pub

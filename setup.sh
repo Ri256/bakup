@@ -60,6 +60,35 @@ if command -v flatpak >/dev/null; then
   done
 fi
 
+echo "==> 5b/5 AUR-пакеты (zapret-git и т.п.)..."
+AUR_HELPER=""
+for h in paru yay; do command -v "$h" >/dev/null && AUR_HELPER="$h" && break; done
+if [ -n "$AUR_HELPER" ]; then
+  for p in zapret-git; do
+    echo "    $AUR_HELPER: $p"
+    $AUR_HELPER -S --needed --noconfirm "$p" 2>/dev/null || $AUR_HELPER -S --needed "$p" || true
+  done
+else
+  echo "    помощник AUR не найден. Поставьте позже вручную: sudo pacman -S paru; paru -S zapret-git"
+fi
+
+echo "==> 5c/5 Восстановление конфига zapret..."
+if [ -f "$HOME/system/zapret-config.conf" ] && [ -d /opt/zapret ]; then
+  sudo cp -f "$HOME/system/zapret-config.conf" /opt/zapret/config
+  DEV=$(ip route 2>/dev/null | awk '/default/{print $5; exit}')
+  if [ -n "$DEV" ]; then
+    sudo sed -i "s/^IFACE_WAN=.*/IFACE_WAN=\"$DEV\"/" /opt/zapret/config
+    echo "    IFACE_WAN установлен на текущий интерфейс: $DEV"
+  fi
+  if command -v nft >/dev/null; then FWTYPE="nftables"; else FWTYPE="iptables"; fi
+  sudo sed -i "s/^FWTYPE=.*/FWTYPE=$FWTYPE/" /opt/zapret/config
+  sudo systemctl enable zapret 2>/dev/null || true
+  sudo systemctl restart zapret 2>/dev/null || true
+  echo "    zapret config восстановлен, сервис перезапущен"
+else
+  echo "    (нет конфига или zapret не установлен — пропускаю)"
+fi
+
 echo ""
 echo "Готово! Дальше вручную:"
 echo "  * SSH-ключ: ssh-keygen -t ed25519 -f ~/.ssh/github -N '' -C 'ваш@mail.com'"
