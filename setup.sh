@@ -41,10 +41,19 @@ chmod +x "$HOME/.local/bin/bakup" 2>/dev/null || true
 
 echo "==> 5/5 Установка программ из списков..."
 cd "$HOME"
+# Полный список (включая зависимости: кодеки, звук, драйвера) — важный,
+# т.к. на Arch DE метапакеты НЕ тянут их автоматически, в отличие от Manjaro.
+if [ -f apps-pacman-all.txt ]; then
+  PKGLIST="apps-pacman-all.txt"
+  echo "    использую полный список: $PKGLIST"
+else
+  PKGLIST="apps-pacman.txt"
+  echo "    использую список явных пакетов: $PKGLIST"
+fi
 if command -v pacman >/dev/null; then
   echo "    делаю список доступных в репозитории пакетов..."
   PKGS=""
-  for p in $(cat apps-pacman.txt); do
+  for p in $(cat "$PKGLIST"); do
     pacman -Si "$p" >/dev/null 2>&1 && PKGS="$PKGS $p"
   done
   if [ -n "$PKGS" ]; then
@@ -89,6 +98,28 @@ else
   echo "    (нет конфига или zapret не установлен — пропускаю)"
 fi
 
+echo "==> 5d/5 Включение сервисов (в Arch это делается ВРУЧНУЮ!)..."
+# NetworkManager / dhcpcd — без этого не будет сети после ребута
+if systemctl list-unit-files NetworkManager.service >/dev/null 2>&1; then
+  sudo systemctl enable --now NetworkManager 2>/dev/null || true
+  echo "    NetworkManager включён"
+else
+  sudo systemctl enable --now dhcpcd 2>/dev/null || true
+  echo "    NetworkManager не найден, включён dhcpcd"
+fi
+# Звук: pipewire-юниты должны быть включены для пользователя
+if command -v systemctl --user >/dev/null 2>&1; then
+  systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber 2>/dev/null || true
+  echo "    pipewire/звук включены"
+fi
+# Куки/декорот: указать явно
+if ! command -v mimeapps-update >/dev/null 2>&1; then
+  echo "    (mimeapps-update нет, это не критично)"
+else
+  mimeapps-update 2>/dev/null || true
+fi
+echo "    Systemd-сервисы готовы"
+
 echo ""
 echo "Готово! Дальше вручную:"
 echo "  * SSH-ключ: ssh-keygen -t ed25519 -f ~/.ssh/github -N '' -C 'ваш@mail.com'"
@@ -96,3 +127,4 @@ echo "  * добавить .pub на github.com/settings/keys"
 echo "  * переключить remote на SSH:"
 echo "      git --git-dir=$BARE --work-tree=$HOME remote set-url origin git@github.com:Ri256/bakup.git"
 echo "  * бэкапить: bakup  (или git --git-dir=$BARE --work-tree=$HOME push)"
+echo "  * если появится ошибка 'Unit X not found' — проверьте кодеки/звук: sudo pacman -S pipewire wireplumber"

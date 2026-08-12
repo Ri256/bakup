@@ -65,14 +65,29 @@ alias bakup='/home/rinas/.local/bin/bakup'   # или установите ск�
 ## Шаг 4 — установка программ
 
 ```bash
-# список установленных пакетов (Manjaro)
-pacman -S --needed $(cat apps-pacman.txt)
+# полный список пакетов (включая зависимости: кодеки, звук, драйвера)
+pacman -S --needed --noconfirm $(cat apps-pacman-all.txt 2>/dev/null || cat apps-pacman.txt)
 
 # flatpak-приложения
 flatpak install -y $(cat apps-flatpak.txt)
 ```
 
-Не найденные пакеты (некоторые могут быть манджар-specific) — спокойно пропускайте.
+⚠️ В Manjaro метапакеты DE тащат звук/кодеки/драйвера автоматически, а в **Arch — нет**:
+`pipewire`, `ffmpeg`, `libva`, графические драйвера ставятся отдельно. Именно поэтому
+мы бэкапим полный список `apps-pacman-all.txt` (1567 пакетов, включая зависимости).
+`setup.sh` сам использует полный список.
+
+## Включение сервисов (в Arch — вручную!)
+
+Пакеты ставят unit-файлы, но **не включают** службы. Обязательно:
+
+```bash
+sudo systemctl enable --now NetworkManager   # сеть (или dhcpcd)
+sudo systemctl enable zapret                 # обход блокировок
+systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber  # звук
+```
+
+`setup.sh` выполняет это автоматически.
 
 ## Шаг 5 — SSH-ключ для GitHub
 
