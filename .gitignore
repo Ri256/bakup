@@ -1,6 +1,10 @@
 # temporary, caches and big dirs
 .cache/
 .local/
+!.local/
+!.local/share/
+!.local/share/wallpapers/
+!.local/share/wallpapers/**
 .var/
 .snap/
 .steam/

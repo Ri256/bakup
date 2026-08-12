@@ -10,6 +10,7 @@ G=(git --git-dir="$HOME/.cfg-store.git" --work-tree="$HOME")
   .ssh/github.pub .ssh/gitlab.pub \
   apps-pacman.txt apps-pacman-all.txt apps-flatpak.txt RESTORE.md setup.sh LICENSE README.md \
   system/zapret-config.conf \
+  .local/share/wallpapers \
   bin/bakup \
   .config/btop .config/htop .config/cava .config/hypr .config/i3 \
   .config/kate .config/katerc .config/dolphinrc .config/arkrc .config/baloofilerc
