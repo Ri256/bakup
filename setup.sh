@@ -101,7 +101,7 @@ fi
 
 echo "==> 5b/5 AUR-пакеты (zapret-git и т.п.)..."
 AUR_HELPER=""
-for h in paru yay; do command -v "$h" >/dev/null && AUR_HELPER="$h" && break; done
+for h in yay paru; do command -v "$h" >/dev/null && AUR_HELPER="$h" && break; done
 install_aur() { # $1 = пакет
   $AUR_HELPER -S --needed --noconfirm "$1" 2>/dev/null || $AUR_HELPER -S --needed "$1" || true
 }
@@ -109,13 +109,26 @@ if [ -n "$AUR_HELPER" ]; then
   echo "    используем: $AUR_HELPER"
   install_aur zapret-git
 else
-  echo "    помощника AUR нет — ставлю paru (он в [extra] Arch)..."
-  sudo pacman -S --needed --noconfirm base-devel paru 2>/dev/null || true
-  if command -v paru >/dev/null 2>&1; then
-    AUR_HELPER=paru
+  echo "    помощника AUR нет — ставлю yay из AUR..."
+  if pacman -Qq base-devel >/dev/null 2>&1; then
+    if mkdir -p "$HOME/.config/aur" && git clone --depth=1 https://aur.archlinux.org/yay.git "$HOME/.config/aur/yay" 2>/dev/null; then
+      if (cd "$HOME/.config/aur/yay" && makepkg -si --noconfirm) 2>/dev/null; then
+        AUR_HELPER=yay
+        echo "    yay установлен"
+      fi
+    fi
+  fi
+  if [ -z "$AUR_HELPER" ]; then
+    echo "    собираю yay вручную не вышло — ставлю paru из [extra]..."
+    sudo pacman -S --needed --noconfirm base-devel paru 2>/dev/null || true
+    if command -v paru >/dev/null 2>&1; then
+      AUR_HELPER=paru
+    fi
+  fi
+  if [ -n "$AUR_HELPER" ]; then
     install_aur zapret-git
   else
-    echo "    paru не установился. Сделайте вручную: sudo pacman -S paru; paru -S zapret-git"
+    echo "    установите AUR-помощник сами: sudo pacman -S paru; paru -S zapret-git"
   fi
 fi
 
