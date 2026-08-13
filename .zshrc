@@ -25,7 +25,7 @@ alias config-backup='/usr/bin/git --git-dir=$HOME/.cfg-store.git --work-tree=$HO
 
 export PATH="$HOME/.local/bin:$PATH"
 
-alias config='/usr/bin/git --git-dir=$HOME/.cfg-store.git/ --work-tree=\$HOME'
+alias config='/usr/bin/git --git-dir=$HOME/.cfg-store.git/ --work-tree="$HOME"'
 
 export HISTFILE=~/.zhistory
 
