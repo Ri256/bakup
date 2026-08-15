@@ -112,6 +112,7 @@ install_aur() { # $1 = пакет
 if [ -n "$AUR_HELPER" ]; then
   echo "    используем: $AUR_HELPER"
   install_aur zapret-git
+  install_aur opencode
 else
   echo "    помощника AUR нет — ставлю yay из AUR..."
   if pacman -Qq base-devel >/dev/null 2>&1; then
@@ -131,8 +132,9 @@ else
   fi
   if [ -n "$AUR_HELPER" ]; then
     install_aur zapret-git
+    install_aur opencode
   else
-    echo "    установите AUR-помощник сами: sudo pacman -S paru; paru -S zapret-git"
+    echo "    установите AUR-помощник сами: sudo pacman -S paru; paru -S zapret-git opencode"
   fi
 fi
 
