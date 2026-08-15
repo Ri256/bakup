@@ -1,5 +1,5 @@
 #!/bin/bash
-# Backup dotfiles & configs to GitHub (public repo Ri256/bakup)
+# Backup dotfiles & configs to GitHub (private repo Ri256/bakup)
 set -euo pipefail
 export HOME="${HOME:-/home/rinas}"
 G=(git --git-dir="$HOME/.cfg-store.git" --work-tree="$HOME")

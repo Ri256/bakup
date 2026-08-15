@@ -52,6 +52,10 @@ echo "==> 4/5 Скрипт bakup..."
 mkdir -p "$HOME/.local/bin"
 cp -f "$HOME/bin/bakup" "$HOME/.local/bin/bakup" 2>/dev/null || true
 chmod +x "$HOME/.local/bin/bakup" 2>/dev/null || true
+# задаём локальные git-параметры, чтобы bakup мог коммитить
+cfg config user.name "Rinas" 2>/dev/null || true
+cfg config user.email "m07748453@gmail.com" 2>/dev/null || true
+echo "    git user настроен"
 
 echo "==> 5/5 Установка программ из списков..."
 cd "$HOME"
