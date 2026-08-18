@@ -5,7 +5,7 @@ export HOME="${HOME:-/home/rinas}"
 G=(git --git-dir="$HOME/.cfg-store.git" --work-tree="$HOME")
 
 # explicit list of tracked paths (keeps secrets out automatically via .gitignore)
-"${G[@]}" add \
+for f in \
   .gitignore .zshrc .gitconfig .gtkrc-2.0 \
   .ssh/github.pub .ssh/gitlab.pub \
   apps-pacman.txt apps-pacman-all.txt apps-flatpak.txt RESTORE.md setup.sh LICENSE README.md \
@@ -13,7 +13,9 @@ G=(git --git-dir="$HOME/.cfg-store.git" --work-tree="$HOME")
   .local/share/wallpapers \
   bin/bakup \
   .config/btop .config/htop .config/cava .config/hypr .config/i3 \
-  .config/kate .config/katerc .config/dolphinrc .config/arkrc .config/baloofilerc
+  .config/kate .config/katerc .config/dolphinrc .config/arkrc .config/baloofilerc; do
+  [ -e "$HOME/$f" ] && "${G[@]}" add "$f"
+done
 
 if "${G[@]}" diff --cached --quiet; then
   echo "Nothing to back up."

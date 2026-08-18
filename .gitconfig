@@ -1,3 +1,5 @@
 [user]
 	email = m07748453@gmail.com
 	name = Rinas
+[core]
+	sshCommand = ssh -i /home/rinas/.ssh/github -o IdentitiesOnly=yes
